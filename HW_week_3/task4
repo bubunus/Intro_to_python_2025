@@ -1,0 +1,12 @@
+employee = {'name': 'John Doe', 'last_interview': '2025-05-12', 'studies': 'MSc', 'salary': 1564.2}
+
+
+new_salary = float(input("Enter new salary: "))
+employee['salary'] = new_salary
+
+
+phone = input("Enter phone number: ")
+employee['phone'] = phone
+
+print("\nUpdated employee info:")
+print(employee)

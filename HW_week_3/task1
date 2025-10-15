@@ -1,0 +1,11 @@
+def sum_list(numbers):
+    total = 0
+    i = 0
+    while i < len(numbers):
+        total = total + numbers[i]
+        i = i + 1
+    return total
+
+# Example:
+nums = [3, 5, 7, 2]
+print("Sum:", sum_list(nums))

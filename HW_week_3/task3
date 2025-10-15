@@ -1,0 +1,28 @@
+def is_leap_year(year):
+    if year % 4 != 0:
+        return False
+    elif year % 100 != 0:
+        return True
+    elif year % 400 != 0:
+        return False
+    else:
+        return True
+    
+def check_date(day, month, year):
+   
+    days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    
+    if is_leap_year(year):
+        days_in_month[1] = 29
+
+    if month < 1 or month > 12:
+        return False
+    if day < 1 or day > days_in_month[month - 1]:
+        return False
+    return True
+
+
+print(check_date(29, 2, 2024))  # True
+print(check_date(29, 2, 2023))  # False
+print(check_date(31, 11, 2025)) # False
