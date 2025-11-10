@@ -1,0 +1,67 @@
+class Order:
+    VAT_RATE = 0.15
+
+    def __init__(self, order_id, customer_name):
+        self.order_id = order_id
+        self.customer_name = customer_name
+        self.items = {}
+
+    def add_item(self, item_name, price):
+        self.items[item_name] = price
+        print(f"Added item: {item_name} (${price:.2f})")
+
+    def calculate_total_cost(self):
+        return sum(self.items.values())
+
+    def calculate_vat(self):
+        return self.calculate_total_cost() * self.VAT_RATE
+
+    def calculate_amount_to_be_paid(self):
+        return self.calculate_total_cost() + self.calculate_vat()
+
+    def display_order_summary(self):
+        print("\n" + "="*30)
+        print(f"Order ID: {self.order_id}")
+        print(f"Customer: {self.customer_name}")
+        print("-"*30)
+        print("Items:")
+        if not self.items:
+            print("  (No items in this order)")
+        else:
+            for item, price in self.items.items():
+                print(f"  - {item}: ${price:.2f}")
+        print("-"*30)
+        
+        total = self.calculate_total_cost()
+        vat = self.calculate_vat()
+        amount_due = self.calculate_amount_to_be_paid()
+        
+        print(f"Subtotal: ${total:.2f}")
+        print(f"VAT (15%): ${vat:.2f}")
+        print(f"Total Amount Due: ${amount_due:.2f}")
+        print("="*30 + "\n")
+
+
+if __name__ == "__main__":
+    print("--- Testing the Order Class ---")
+
+    
+    order1 = Order(35, "John Doe")
+    order1.add_item("Milk", 2.30)
+    order1.add_item("Butter", 3.40)
+    order1.add_item("Chocolate", 3.00)
+    order1.add_item("Soap", 4.50)
+    
+    order1.display_order_summary()
+
+    
+    order2 = Order(36, "Jane Smith")
+    order2.add_item("Apples (1kg)", 4.50)
+    order2.add_item("Bread", 1.25)
+    
+    order2.display_order_summary()
+    
+    # Example 3: Empty order
+    order3 = Order(37, "Test Customer")
+    
+    order3.display_order_summary()

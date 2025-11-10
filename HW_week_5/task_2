@@ -1,0 +1,68 @@
+import urllib.request
+import urllib.error
+import json
+
+def get_book_title_by_isbn(isbn):
+    isbn_clean = isbn.strip()
+    
+    url = f"https://openlibrary.org/isbn/{isbn_clean}.json"
+    
+    print(f"\nSearching for ISBN: {isbn_clean}...")
+    print(f"Requesting URL: {url}")
+    
+    try:
+        
+        with urllib.request.urlopen(url) as response:
+            
+            
+            raw_data = response.read().decode('utf-8')
+            
+           
+            data = json.loads(raw_data)
+            
+            title = data.get('title')
+            
+            if title:
+                print(f"\n--- SUCCESS ---")
+                print(f"Title: {title}")
+                
+                if 'authors' in data and isinstance(data['authors'], list):
+                    print(f"Found {len(data['authors'])} author(s) linked.")
+                    
+            else:
+                print("\n--- FOUND, BUT NO TITLE ---")
+                print("The API returned data for this ISBN, but no 'title' field was found.")
+
+    except urllib.error.HTTPError as err:
+        if err.code == 404:
+            print(f"\n--- ERROR (404 Not Found) ---")
+            print(f"No book found with the ISBN: {isbn_clean}")
+        else:
+            print(f"\n--- HTTP ERROR ---")
+            print(f"An HTTP error occurred: Code {err.code}")
+    except urllib.error.URLError as err:
+        print(f"\n--- NETWORK ERROR ---")
+        print(f"A network error occurred: {err.reason}")
+    except json.JSONDecodeError:
+        print(f"\n--- ERROR ---")
+        print("Failed to decode the response. Invalid JSON received.")
+    except Exception as err:
+        print(f"\n--- AN UNKNOWN ERROR OCCURRED ---")
+        print(f"{err}")
+
+
+if __name__ == "__main__":
+    print("--- Open Library Book Title Finder (Standard Library) ---")
+    print("Enter 'q' to quit.")
+    
+    while True:
+        isbn_input = input("\nPlease enter an ISBN: ")
+        
+        if isbn_input.lower() == 'q':
+            break
+            
+        if not isbn_input:
+            print("Please enter an ISBN.")
+            continue
+            
+        get_book_title_by_isbn(isbn_input)
